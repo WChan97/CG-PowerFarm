@@ -5,13 +5,12 @@ var renderer = new THREE.WebGLRenderer({
 
 //Set Renderer Size
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
 
 //Enable shadowMap
 renderer.shadowMap.enabled = true;
 
 //Resize window
-var MyResize = function () {
+var Resize = function () {
     var width = window.innerWidth;
     var height = window.innerHeight;
     //Update renderer
@@ -21,4 +20,4 @@ var MyResize = function () {
 };
 
 //Link Event
-window.addEventListener('resize', MyResize);
+window.addEventListener('resize', Resize);
