@@ -22,6 +22,8 @@
     <script src="scripts/generateTerrain.js"></script>
     <!--Dummy is used to test js files-->
     <script src="scripts/Dummy.js"></script>
+    <script src="scripts/FirstPersonControls.js"></script>
+
 
 </head>
 
@@ -67,23 +69,50 @@
         //https://codepen.io/elliezen/pen/GWbBrx
         //https://codepen.io/Yakudoo/pen/rVGraP
         //https://markshulhin.github.io/
+
+
+
+        var controls;
+        var scene = new THREE.Scene();
+        var ratio = window.innerWidth / window.innerHeight;
+        //var camera = new THREE.PerspectiveCamera(45, ratio, 1, 5000);
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
+
+        var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+
+        camera.position.set(20, 0, 40);
+        camera.lookAt(0, 0, 0);
+        //scene.add(camera);
+
+        controls = new THREE.FirstPersonControls( camera );
+        controls.movementSpeed = 10;
+        controls.lookSpeed = 0.2;
+
+        var clock = new THREE.Clock();
+
         var width = window.innerWidth;
         var height = window.innerHeight;
         var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(width, height);
-        document.body.appendChild(renderer.domElement);
+        renderer.setSize( window.innerWidth, window.innerHeight );
 
-        var scene = new THREE.Scene();
-        var ratio = window.innerWidth / window.innerHeight;
-        var camera = new THREE.PerspectiveCamera(45, ratio, 1, 5000);
-        camera.position.set(20, 0, 40);
-        camera.lookAt(0, 0, 0);
-        scene.add(camera);
+        //renderer.setSize(width, height);
+        document.body.appendChild( renderer.domElement );
+
         //Call dummy() from Dummy.JS
         generateTerrain();
-        dummy();
-        renderer.render(scene, camera);
-    </script>
+        //dummy();
+        scene.add( directionalLight );
+
+
+        var animate = function () {
+    			requestAnimationFrame( animate );
+
+    			renderer.render( scene, camera );
+    			controls.update( clock.getDelta() );
+    		};
+        animate();
+
+        </script>
 
 </body>
 
