@@ -77,18 +77,19 @@
 
 
         var controls;
+        var gui;
         var scene = new THREE.Scene();
         var ratio = window.innerWidth / window.innerHeight;
         //var camera = new THREE.PerspectiveCamera(45, ratio, 1, 5000);
-        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
 
-        var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 
         camera.position.set(20, 0, 40);
         camera.lookAt(0, 0, 0);
         //scene.add(camera);
 
-        controls = new THREE.FirstPersonControls( camera );
+        controls = new THREE.FirstPersonControls(camera);
         controls.movementSpeed = 10;
         controls.lookSpeed = 0.2;
 
@@ -97,26 +98,96 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
         var renderer = new THREE.WebGLRenderer();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
         //renderer.setSize(width, height);
-        document.body.appendChild( renderer.domElement );
+        document.body.appendChild(renderer.domElement);
 
         //Call dummy() from Dummy.JS
-        generateTerrain();
+        //generateTerrain();
+        var geometry = new THREE.PlaneBufferGeometry(20, 20, 100, 100);
+        geometry.rotateX(-Math.PI / 2);
+
+        var loader = new THREE.TextureLoader();
+        var displacement_map = loader.load('img/' + THREE.Math.randInt(1, 12) + '.jpg');
+
+        var material_ground = new THREE.MeshPhongMaterial({
+            color: 0x99cc00,
+            displacementMap: displacement_map,
+            displacementScale: 5,
+            side: THREE.DoubleSide
+        });
+
+        var material_ground_wire = new THREE.MeshPhongMaterial({
+            color: 0x204c09,
+            displacementMap: displacement_map,
+            displacementScale: 5,
+            side: THREE.DoubleSide
+        });
+        material_ground_wire.wireframe = true;
+
+
+        var mesh = new THREE.Mesh(
+            geometry,
+            material_ground
+        );
+
+
+        var meshWire = new THREE.Mesh(
+            geometry,
+            material_ground_wire
+        );
+        meshWire.position.set(0, 0.01, 0);
+
+
+        var basegeometry = new THREE.BoxGeometry(20, 10, 20);
+        var material = new THREE.MeshBasicMaterial({
+            color: 0x443b25
+        });
+        var base = new THREE.Mesh(basegeometry, material);
+        base.position.set(0, -5.01, 0);
+
+
+        scene.add(base);
+        scene.add(mesh);
+        scene.add(meshWire);
         //dummy();
-        scene.add( directionalLight );
+        scene.add(directionalLight);
 
+        //////////////////////
+        ////Walter's Block////
+        //////////////////////
 
-        var animate = function () {
-    			requestAnimationFrame( animate );
+        //GUI
+        function BuildGui() {
+            gui = new dat.GUI();
+            var param = {
+                //color: material_tissue.color.getHex(),
+                wireframe: material_ground_wire.wireframe
+            }
+            //gui.addColor(param, 'color').onChange(function(val) {
+            //    material_tissue.color.setHex(val);
+            //});
+            gui.add(param, 'Terrain Wireframe').onChange(function(bool) {
+                material_ground_wire.wireframe = bool;
+            });
+            gui.open();
+        }
+        BuildGui();
+        //End GUI
 
-    			renderer.render( scene, camera );
-    			controls.update( clock.getDelta() );
-    		};
+        //////////////////////
+        //End Walter's Block//
+        //////////////////////
+
+        var animate = function() {
+            requestAnimationFrame(animate);
+
+            renderer.render(scene, camera);
+            controls.update(clock.getDelta());
+        };
         animate();
-
-        </script>
+    </script>
 
 </body>
 
