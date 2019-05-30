@@ -75,36 +75,33 @@
         //https://markshulhin.github.io/
 
 
-
-        var controls;
-        var gui;
         var scene = new THREE.Scene();
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        var width = window.innerWidth;
+        var height = window.innerHeight;
         var ratio = window.innerWidth / window.innerHeight;
-        //var camera = new THREE.PerspectiveCamera(45, ratio, 1, 5000);
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
 
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
+        camera.position.set(20, 0, 10);
+        camera.lookAt(0, 0, 0);
+        scene.add(camera);
+
+        control = new THREE.OrbitControls(camera);
+
+        var gui;
         var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 
-        camera.position.set(20, 0, 40);
-        camera.lookAt(0, 0, 0);
-        //scene.add(camera);
-
+        /*
         controls = new THREE.FirstPersonControls(camera);
         controls.movementSpeed = 10;
         controls.lookSpeed = 0.2;
 
         var clock = new THREE.Clock();
+        */
 
-        var width = window.innerWidth;
-        var height = window.innerHeight;
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        //renderer.setSize(width, height);
-        document.body.appendChild(renderer.domElement);
-
-        //Call dummy() from Dummy.JS
-        //generateTerrain();
+        //Generate Terrain
         var geometry = new THREE.PlaneBufferGeometry(20, 20, 100, 100);
         geometry.rotateX(-Math.PI / 2);
 
@@ -151,12 +148,30 @@
         scene.add(base);
         scene.add(mesh);
         scene.add(meshWire);
-        //dummy();
         scene.add(directionalLight);
 
         //////////////////////
         ////Walter's Block////
         //////////////////////
+        //UpdateLoop
+        var MyUpdateLoop = function() {
+            control.update();
+            renderer.render(scene, camera);
+            requestAnimationFrame(MyUpdateLoop);
+        };
+        requestAnimationFrame(MyUpdateLoop);
+        //End UpdateLoop
+        //Resize
+        var MyResize = function() {
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.render(scene, camera);
+        };
+        window.addEventListener('resize', MyResize);
+        //End Resize
 
         //GUI
         function BuildGui() {
@@ -180,6 +195,7 @@
         //End Walter's Block//
         //////////////////////
 
+        /*
         var animate = function() {
             requestAnimationFrame(animate);
 
@@ -187,6 +203,7 @@
             controls.update(clock.getDelta());
         };
         animate();
+        */
     </script>
 
 </body>
