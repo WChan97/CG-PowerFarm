@@ -4,7 +4,7 @@ function generateTerrain(){
   geometry.rotateX( - Math.PI / 2 );
 
   var loader = new THREE.TextureLoader();
-  var displacement_map = loader.load('textures/' + THREE.Math.randInt(1, 12) + '.jpg');
+  var displacement_map = loader.load('img/' + THREE.Math.randInt(1, 12) + '.jpg');
 
   var material_ground = new THREE.MeshPhongMaterial({
       color: 0x99cc00,
