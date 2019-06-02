@@ -234,13 +234,13 @@
         var ambientLight = new THREE.AmbientLight(new THREE.Color(1,1,1), 0.2);
         scene.add(ambientLight);
 
-        hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
         hemiLight.color.setHSL(0.6, 1, 0.6);
         hemiLight.goundColor.setHSL(0.095, 1, 0.7);
         hemiLight.position.set(0, 190, 0);
         scene.add(hemiLight);
 
-        helper = new THREE.HemisphereLightHelper(hemiLight, 10);
+        var helper = new THREE.HemisphereLightHelper(hemiLight, 10);
         scene.add(helper);
 
         var directLight = new THREE.DirectionalLight(0xffffff, 1);
