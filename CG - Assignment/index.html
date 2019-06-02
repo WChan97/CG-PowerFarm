@@ -243,11 +243,14 @@
         helper = new THREE.HemisphereLightHelper(hemiLight, 10);
         scene.add(helper);
 
-        directLight = new THREE.DirectionalLight(0xffffff, 1);
+        var directLight = new THREE.DirectionalLight(0xffffff, 1);
         directLight.color.setHSL(0.1, 1, 0.95);
         directLight.position.set(400, 300, 1);
+        directLight.target.position.set(0, 0, 0);
         directLight.position.multiplyScalar(30);
+
         scene.add(directLight);
+        secene.add(directLight.target);
 
         directLight.castShadow = true;
         directLight.shadow.mapSize.width = 2048;
@@ -262,7 +265,7 @@
         directLight.shadow.camera.far = 3500;
         directLight.shadow.bias = -0.0001;
 
-        directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
+        var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
         scene.add(directLightHelper);
 
     </script>
