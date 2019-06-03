@@ -23,13 +23,13 @@ let seasons = [
 ];
 
 function setSeason() {
-    if (updateSeason.Season == "Summer") {
-        material_ground.color.setHex(0x30ec2a);       
-    } else if (updateSeason.Season == "Autumn") {  
-        material_ground.color.setHex(0xffffff);  
-    } else if (updateSeason.Season == "Winter") {   
-        material_ground.color.setHex(0x000000);  
-    } else if (updateSeason.Season == "Spring") {   
-        material_ground.color.setHex(0x30ec2a);  
+    if (seasonControl.Season == "Summer") {
+        material_ground.color.setHex(0x30ec2a);
+    } else if (seasonControl.Season == "Autumn") {
+        material_ground.color.setHex(0xffffff);
+    } else if (seasonControl.Season == "Winter") {
+        material_ground.color.setHex(0x000000);
+    } else if (seasonControl.Season == "Spring") {
+        material_ground.color.setHex(0x30ec2a);
     }
 }
