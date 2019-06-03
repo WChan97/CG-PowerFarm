@@ -144,10 +144,10 @@
         var base = new THREE.Mesh(basegeometry, material_base);
         base.position.set(0, -2.51, 0);
 
-
         scene.add(base);
         scene.add(mesh);
         scene.add(meshWire);
+
         scene.add(directionalLight);
 
         //////////////////////
@@ -180,6 +180,7 @@
             Season: "Summer"
         };
 
+
         function buildGui() {
             gui = new dat.GUI();
             var param = {
@@ -189,24 +190,36 @@
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
             }
-            gui.addColor(param, 'Ground_Colour').onChange(function(val) {
-                material_ground.color.setHex(val);
-            });
-            gui.addColor(param, 'Wireframe_Colour').onChange(function(val) {
-                material_ground_wire.color.setHex(val);
-            });
-            gui.addColor(param, 'Base_Colour').onChange(function(val) {
-                material_base.color.setHex(val);
-            });
+            /*
+            var lightFolder = gui.addFolder('Lighting Controls');
+            lightFolder.add(lightControl, 'Intensity', 0, 1, 0.1).onChange(updateLight);
+            lightFolder.add(lightControl, 'Angle', 0, 0.5, 0.0001).onChange(updateLight);
+            lightFolder.add(lightControl, 'Colour').onChange(updateLight);
+            */
+
             var seasonFolder = gui.addFolder('Seasons');
             seasonFolder.add(seasonControl, 'Season', ["Summer", "Autumn", "Winter", "Spring"]).onChange(setSeason);
-            gui.add(param, 'Terrain_Wireframe').onChange(function(bool) {
+
+            var colourFolder = gui.addFolder('More Colours');
+            colourFolder.addColor(param, 'Ground_Colour').onChange(function(val) {
+                material_ground.color.setHex(val);
+            });
+            colourFolder.addColor(param, 'Wireframe_Colour').onChange(function(val) {
+                material_ground_wire.color.setHex(val);
+            });
+            colourFolder.addColor(param, 'Base_Colour').onChange(function(val) {
+                material_base.color.setHex(val);
+            });
+
+            var wireframeFolder = gui.addFolder('Wireframes');
+            wireframeFolder.add(param, 'Terrain_Wireframe').onChange(function(bool) {
                 material_ground.wireframe = bool;
             });
-            gui.add(param, 'Base_Wireframe').onChange(function(bool) {
+            wireframeFolder.add(param, 'Base_Wireframe').onChange(function(bool) {
                 material_base.wireframe = bool;
             });
             gui.open();
+            //lightFolder.open();
             seasonFolder.open();
         }
 
