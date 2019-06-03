@@ -88,7 +88,7 @@
         camera.lookAt(0, 0, 0);
         scene.add(camera);
 
-        control = new THREE.OrbitControls(camera);
+        control = new THREE.OrbitControls(camera, renderer.domElement);
 
         var gui;
         var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
@@ -154,10 +154,12 @@
         ////Walter's Block////
         //////////////////////
         //UpdateLoop
+
         var MyUpdateLoop = function() {
             control.update();
             renderer.render(scene, camera);
             requestAnimationFrame(MyUpdateLoop);
+
         };
         requestAnimationFrame(MyUpdateLoop);
         //End UpdateLoop
@@ -174,17 +176,16 @@
         //End Resize
 
         //GUI
-        var updateSeason = {
-            Season: "Spring"
+        var seasonControl = {
+            Season: "Summer"
         };
 
-        function BuildGui() {
+        function buildGui() {
             gui = new dat.GUI();
             var param = {
                 Ground_Colour: material_ground.color.getHex(),
                 Wireframe_Colour: material_ground_wire.color.getHex(),
                 Base_Colour: material_base.color.getHex(),
-                //Season: material_ground.color.getHex(),
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
             }
@@ -198,7 +199,7 @@
                 material_base.color.setHex(val);
             });
             var seasonFolder = gui.addFolder('Seasons');
-            seasonFolder.add(updateSeason, 'Season', ['Summer', 'Autumn', 'Winter', 'Spring']).onChange(setSeason);
+            seasonFolder.add(seasonControl, 'Season', ["Summer", "Autumn", "Winter", "Spring"]).onChange(setSeason);
             gui.add(param, 'Terrain_Wireframe').onChange(function(bool) {
                 material_ground.wireframe = bool;
             });
@@ -208,9 +209,8 @@
             gui.open();
             seasonFolder.open();
         }
-        BuildGui();
 
-
+        buildGui();
         //End GUI
 
         //////////////////////
@@ -231,7 +231,7 @@
         ///////////
         ///Light///
         ///////////
-        var ambientLight = new THREE.AmbientLight(new THREE.Color(1,1,1), 0.2);
+        var ambientLight = new THREE.AmbientLight(new THREE.Color(1, 1, 1), 0.2);
         scene.add(ambientLight);
 
         var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
@@ -267,7 +267,6 @@
 
         var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
         scene.add(directLightHelper);
-
     </script>
 
 </body>
