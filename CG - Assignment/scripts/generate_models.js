@@ -1,4 +1,5 @@
 //Objects downloaded from www.kenney.nl
+//Inspiration from https://www.learnthreejs.com/load-3d-model-using-three-js-obj-loader/
 
 function generate_objects(objs, mtls, amount){
     var count = 0;
@@ -37,6 +38,7 @@ function generate_objects(objs, mtls, amount){
 //Paste it in whichever function down below and change the name of the file to the file-name of the model you want to use
 //Change the green number for the number you want generated onto the terrain :)
 
+//Possible functions we can use for different seasons.
 function generate_summer_models(){
     generate_objects("models/naturePack_151.obj", "models/naturePack_151.mtl", 5);
 }
