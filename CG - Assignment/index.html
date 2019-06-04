@@ -154,6 +154,49 @@
         scene.add(meshWire);
 
         scene.add(directionalLight);
+        
+        //////////////////////
+        ////Natalie's Block///
+        //////////////////////
+        function createCloud() {
+            var geo = new THREE.Geometry();
+
+            var tuft1 = new THREE.SphereGeometry(THREE.Math.randFloat(0.8, 1.4), 7, 8);
+            tuft1.translate(-2, 0, 0);
+            geo.merge(tuft1);
+            var tuft2 = new THREE.SphereGeometry(THREE.Math.randFloat(1.0, 1.5), 7, 8);
+            tuft2.translate(2, 0, 0);
+            geo.merge(tuft2);
+            var tuft3 = new THREE.SphereGeometry(THREE.Math.randFloat(1.5, 2.0), 7, 8);
+            tuft3.translate(0, 0.5, 0);
+            geo.merge(tuft3);
+
+            geo.computeFlatVertexNormals();
+
+            cloud = new THREE.Mesh(
+                geo,
+                new THREE.MeshLambertMaterial({
+                    color: 'white',
+                    flatShading: true,
+                })
+            );
+            cloud.scale.set(THREE.Math.randFloat(0.3, 0.8), THREE.Math.randFloat(0.5, 0.6), THREE.Math.randFloat(0.7, 1.0));
+            cloud.position.set(THREE.Math.randInt(-10, 10), THREE.Math.randInt(8, 17), THREE.Math.randInt(-10, 10));
+            cloud.castShadow = true;
+            cloud.receiveShadow = true;
+            cloud.rotation = Math.PI/2;
+
+            scene.add(cloud);
+        }
+        
+        createCloud();
+        createCloud();
+        createCloud();
+        createCloud();
+        
+        //////////////////////
+        //End Natalie's Block//
+        //////////////////////
 
         //////////////////////
         ////Walter's Block////
