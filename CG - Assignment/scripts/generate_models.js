@@ -1,4 +1,4 @@
-var objects = [];
+//Objects downloaded from www.kenney.nl
 
 function generate_objects(objs, mtls, amount){
     var count = 0;
@@ -9,28 +9,26 @@ function generate_objects(objs, mtls, amount){
             
             var objLoader = new THREE.OBJLoader();
             objLoader.setMaterials(material);
-            objLoader.load(objs, function(object){
-                object.traverse(function(child){    
-                    if(child instanceof THREE.Mesh){
-                        child.scale.set(THREE.Math.randFloat(0.3,0.8),THREE.Math.randFloat(0.3,0.8),THREE.Math.randFloat(0.3,0.8));
-                        
-                        child.geometry.computeVertexNormals();
-                        child.position.x = THREE.Math.randInt(-8, 8);
+            objLoader.load(objs, function(object){ // Loads obj file from the file path and passes loaded texture. Returns texture object directly used for material creation.
+                object.traverse(function(child){   //'Traverse' iterates through loaded object. Passes function to be called for every child of object being traversed. 
+                    if(child instanceof THREE.Mesh){ //Tests whether child is of type THREE.Mesh
+                        child.scale.set(THREE.Math.randFloat(0.3,0.8),THREE.Math.randFloat(0.3,0.8),THREE.Math.randFloat(0.3,0.8)); //Random scaling of object
+
+                        child.position.x = THREE.Math.randInt(-8, 8); //Generates the object at a random integer number from -8 to 8 on the x and z axis.
                         child.position.z = THREE.Math.randInt(-8, 8);
-                        child.position.y -= 0;
+                        child.position.y -= 0; 
                         
                         child.castShadow = true;
                         child.receiveShadow = true;
                     }   
                     
-                    objects.push(object);
-                    scene.add(object);
+                    scene.add(object); //Places object onto the scene.
 
                     
                 });
             });
         });
-        count++;
+        count++; //Increases count for every object added (every single loop) to only load the specified number of objects.
     }
 }
 
