@@ -78,6 +78,7 @@
         var scene = new THREE.Scene();
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
         document.body.appendChild(renderer.domElement);
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -114,6 +115,7 @@
             displacementScale: 5,
             side: THREE.DoubleSide
         });
+        material_ground.castShadow = true;
 
         var material_ground_wire = new THREE.MeshPhongMaterial({
             color: 0x204c09,
@@ -180,12 +182,27 @@
             Season: "Summer"
         };
 
+        var regenTerrain = {
+            Regenerate: function() {
+                scene.remove(base);
+                scene.remove(mesh);
+                scene.remove(meshWire);
+                // From Generation.JS
+                reGen();
+                //
+                scene.add(base);
+                scene.add(mesh);
+                scene.add(meshWire);
+            }
+        };
+
 
         function buildGui() {
             gui = new dat.GUI();
             var param = {
                 Ground_Colour: material_ground.color.getHex(),
                 Wireframe_Colour: material_ground_wire.color.getHex(),
+                Ground_Shadow: material_ground.castShadow,
                 Base_Colour: material_base.color.getHex(),
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
@@ -197,8 +214,14 @@
             lightFolder.add(lightControl, 'Colour').onChange(updateLight);
             */
 
+            gui.add(regenTerrain, 'Regenerate');
+
             var seasonFolder = gui.addFolder('Seasons');
             seasonFolder.add(seasonControl, 'Season', ["Summer", "Autumn", "Winter", "Spring"]).onChange(setSeason);
+
+            gui.add(param, 'Ground_Shadow').onChange(function(bool) {
+                material_ground.castShadow = bool;
+            });
 
             var colourFolder = gui.addFolder('More Colours');
             colourFolder.addColor(param, 'Ground_Colour').onChange(function(val) {
@@ -225,7 +248,7 @@
 
         buildGui();
         //End GUI
-
+        //
         //////////////////////
         //End Walter's Block//
         //////////////////////
