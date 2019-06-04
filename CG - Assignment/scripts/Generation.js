@@ -7,7 +7,6 @@ function reGen() {
     displacement_map = loader.load('img/' + THREE.Math.randInt(1, 12) + '.jpg');
 
     material_ground = new THREE.MeshPhongMaterial({
-        color: 0x99cc00,
         displacementMap: displacement_map,
         displacementScale: 5,
         side: THREE.DoubleSide
@@ -15,7 +14,6 @@ function reGen() {
     material_ground.castShadow = true;
 
     material_ground_wire = new THREE.MeshPhongMaterial({
-        color: 0x204c09,
         displacementMap: displacement_map,
         displacementScale: 5,
         side: THREE.DoubleSide
@@ -35,13 +33,7 @@ function reGen() {
     );
     meshWire.position.set(0, 0.01, 0);
 
-
-    basegeometry = new THREE.BoxGeometry(20, 5, 20);
-    material_base = new THREE.MeshBasicMaterial({
-        color: 0x443b25
-    });
-    base = new THREE.Mesh(basegeometry, material_base);
-    base.position.set(0, -2.51, 0);
+    setSeason();
 }
 
 /*function generation() {
