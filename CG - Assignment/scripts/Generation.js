@@ -8,14 +8,14 @@ function reGen() {
 
     material_ground = new THREE.MeshPhongMaterial({
         displacementMap: displacement_map,
-        displacementScale: 5,
+        displacementScale: 2,
         side: THREE.DoubleSide
     });
     material_ground.castShadow = true;
 
     material_ground_wire = new THREE.MeshPhongMaterial({
         displacementMap: displacement_map,
-        displacementScale: 5,
+        displacementScale: 2,
         side: THREE.DoubleSide
     });
     material_ground_wire.wireframe = true;

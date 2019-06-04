@@ -115,7 +115,7 @@
         var material_ground = new THREE.MeshPhongMaterial({
             color: 0x99cc00,
             displacementMap: displacement_map,
-            displacementScale: 5,
+            displacementScale: 2,
             side: THREE.DoubleSide
         });
         material_ground.castShadow = true;
@@ -123,7 +123,7 @@
         var material_ground_wire = new THREE.MeshPhongMaterial({
             color: 0x204c09,
             displacementMap: displacement_map,
-            displacementScale: 5,
+            displacementScale: 2,
             side: THREE.DoubleSide
         });
         material_ground_wire.wireframe = true;
@@ -149,7 +149,15 @@
         var base = new THREE.Mesh(basegeometry, material_base);
         base.position.set(0, -2.51, 0);
 
+        var watergeometry = new THREE.BoxGeometry(19.8, 5, 19.8);
+        var material_water = new THREE.MeshBasicMaterial({
+            color: 0x1852af, transparent: true, opacity: 0.8
+        });
+        var water = new THREE.Mesh(watergeometry, material_water);
+        water.position.set(0, -2.3, 0);
+
         scene.add(base);
+        scene.add(water);
         scene.add(mesh);
         scene.add(meshWire);
 
@@ -303,6 +311,8 @@
 
         var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
         scene.add(directLightHelper);
+
+        generate_summer_models();
 
     </script>
 
