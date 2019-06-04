@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Power Farm</title>
+    <title> Computer Graphics Project </title>
 
     <!--Import Libraries-->
     <script src="js/three.js"> </script>
@@ -65,20 +65,19 @@
     </style>
 
     <div id="info">
-        <h2>Power Farm</h2>
-        - Arrows: Move<br />
-        - Click Drag: Pan Camera<br /><br />
-        Made by Group Four.
+        <h2>Project: Terrain</h2>
+        - Left MB: Rotate<br />
+        - Right MB: Pan<br />
+        - Scroll Wheel: Zoom<br /><br />
+        Made by Group Four.<br />
+        Walter Chan<br />
+        Natalie Nhan <br />
+        Callum Denmead<br />
+        Hengcong Xu <br />
     </div>
 
     <script>
-        //Inspiration
-        //https://codepen.io/elliezen/pen/GWbBrx
-        //https://codepen.io/Yakudoo/pen/rVGraP
-        //https://markshulhin.github.io/
-        //https://blog.mozvr.com/threejs-intermediate-skill-tutorials/
-
-
+        //Global Variables//
         var scene = new THREE.Scene();
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -98,14 +97,6 @@
         var gui;
         var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 
-        /*
-        controls = new THREE.FirstPersonControls(camera);
-        controls.movementSpeed = 10;
-        controls.lookSpeed = 0.2;
-
-        var clock = new THREE.Clock();
-        */
-
         //Generate Terrain
         var geometry = new THREE.PlaneBufferGeometry(20, 20, 100, 100);
         geometry.rotateX(-Math.PI / 2);
@@ -114,7 +105,7 @@
         var displacement_map = loader.load('img/' + THREE.Math.randInt(1, 20) + '.jpg');
 
         var material_ground = new THREE.MeshPhongMaterial({
-            color: 0x99cc00,
+            color: 0x597D27,
             displacementMap: displacement_map,
             displacementScale: 2,
             side: THREE.DoubleSide
@@ -122,7 +113,7 @@
         material_ground.castShadow = true;
 
         var material_ground_wire = new THREE.MeshPhongMaterial({
-            color: 0x204c09,
+            color: 0x344916,
             displacementMap: displacement_map,
             displacementScale: 2,
             side: THREE.DoubleSide
@@ -145,14 +136,16 @@
 
         var basegeometry = new THREE.BoxGeometry(20, 5, 20);
         var material_base = new THREE.MeshBasicMaterial({
-            color: 0x443b25
+            color: 0x976d4d
         });
         var base = new THREE.Mesh(basegeometry, material_base);
         base.position.set(0, -2.51, 0);
 
         var watergeometry = new THREE.BoxGeometry(19.8, 5, 19.8);
         var material_water = new THREE.MeshBasicMaterial({
-            color: 0x1852af, transparent: true, opacity: 0.8
+            color: 0x1852af,
+            transparent: true,
+            opacity: 0.8
         });
         var water = new THREE.Mesh(watergeometry, material_water);
         water.position.set(0, -2.3, 0);
@@ -167,41 +160,43 @@
         //////////////////////
         ////Natalie's Block///
         //////////////////////
-        function createCloud() {
-            var geo = new THREE.Geometry();
 
-            var tuft1 = new THREE.SphereGeometry(THREE.Math.randFloat(0.8, 1.4), 7, 8);
-            tuft1.translate(-2, 0, 0);
-            geo.merge(tuft1);
-            var tuft2 = new THREE.SphereGeometry(THREE.Math.randFloat(1.0, 1.5), 7, 8);
-            tuft2.translate(2, 0, 0);
-            geo.merge(tuft2);
-            var tuft3 = new THREE.SphereGeometry(THREE.Math.randFloat(1.5, 2.0), 7, 8);
-            tuft3.translate(0, 0.5, 0);
-            geo.merge(tuft3);
+        //function createCloud() {
+        var geo = new THREE.Geometry();
 
-            geo.computeFlatVertexNormals();
+        var tuft1 = new THREE.SphereGeometry(THREE.Math.randFloat(0.8, 1.4), 7, 8);
+        tuft1.translate(-2, 0, 0);
+        geo.merge(tuft1);
+        var tuft2 = new THREE.SphereGeometry(THREE.Math.randFloat(1.0, 1.5), 7, 8);
+        tuft2.translate(2, 0, 0);
+        geo.merge(tuft2);
+        var tuft3 = new THREE.SphereGeometry(THREE.Math.randFloat(1.5, 2.0), 7, 8);
+        tuft3.translate(0, 0.5, 0);
+        geo.merge(tuft3);
 
-            cloud = new THREE.Mesh(
-                geo,
-                new THREE.MeshLambertMaterial({
-                    color: 'white',
-                    flatShading: true,
-                })
-            );
-            cloud.scale.set(THREE.Math.randFloat(0.3, 0.8), THREE.Math.randFloat(0.5, 0.6), THREE.Math.randFloat(0.7, 1.0));
-            cloud.position.set(THREE.Math.randInt(-10, 10), THREE.Math.randInt(8, 17), THREE.Math.randInt(-10, 10));
-            cloud.castShadow = true;
-            cloud.receiveShadow = true;
-            cloud.rotation = Math.PI/2;
+        geo.computeFlatVertexNormals();
 
-            scene.add(cloud);
-        }
+        cloud = new THREE.Mesh(
+            geo,
+            new THREE.MeshLambertMaterial({
+                color: 'white',
+                flatShading: true,
+            })
+        );
+        cloud.scale.set(THREE.Math.randFloat(0.3, 0.8), THREE.Math.randFloat(0.5, 0.6), THREE.Math.randFloat(0.7, 1.0));
+        cloud.position.set(THREE.Math.randInt(-10, 10), THREE.Math.randInt(5, 10), THREE.Math.randInt(-10, 10));
+        cloud.castShadow = true;
+        cloud.receiveShadow = true;
+        cloud.rotation = Math.PI / 2;
+        cloud.name = "cloud";
 
-        createCloud();
-        createCloud();
-        createCloud();
-        createCloud();
+        scene.add(cloud);
+        //}
+
+        //createCloud();
+        //createCloud();
+        //createCloud();
+        //createCloud();
 
         //////////////////////
         //End Natalie's Block//
@@ -232,15 +227,24 @@
         window.addEventListener('resize', MyResize);
         //End Resize
 
-        //GUI
+        //Declarations
         var seasonControl = {
             Season: "Summer"
         };
+
+        var cloudCount = 2;
+        var treeCount = 5;
+
+        createTree();
+
+        renderer.setClearColor(0x333333);
 
         var regenTerrain = {
             Regenerate: function() {
                 scene.remove(mesh);
                 scene.remove(meshWire);
+                //scene.remove(cloud);
+                removeObjects();
                 // From Generation.JS
                 reGen();
                 scene.add(mesh);
@@ -248,14 +252,17 @@
             }
         };
 
-
+        //GUI
         function buildGui() {
             gui = new dat.GUI();
             var param = {
+                Cloud_Count: cloudCount,
+                Tree_Count: treeCount,
                 Ground_Colour: material_ground.color.getHex(),
                 Wireframe_Colour: material_ground_wire.color.getHex(),
-                Ground_Shadow: material_ground.castShadow,
+                Water_Colour: material_water.color.getHex(),
                 Base_Colour: material_base.color.getHex(),
+                Ground_Shadow: material_ground.castShadow,
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
             }
@@ -268,22 +275,32 @@
 
             gui.add(regenTerrain, 'Regenerate');
 
+            gui.add(param, 'Tree_Count').onChange(function(val) {
+                treeCount = Math.round(val * 100) / 100;;
+            });
+
+            gui.add(param, 'Cloud_Count').onChange(function(val) {
+                cloudCount = Math.round(val * 100) / 100;;
+            });
+
             var seasonFolder = gui.addFolder('Seasons');
             seasonFolder.add(seasonControl, 'Season', ["Summer", "Autumn", "Winter", "Spring"]).onChange(setSeason);
 
-            gui.add(param, 'Ground_Shadow').onChange(function(bool) {
-                material_ground.castShadow = bool;
-            });
-
-            var colourFolder = gui.addFolder('More Colours');
+            var colourFolder = gui.addFolder('More Options');
             colourFolder.addColor(param, 'Ground_Colour').onChange(function(val) {
                 material_ground.color.setHex(val);
             });
             colourFolder.addColor(param, 'Wireframe_Colour').onChange(function(val) {
                 material_ground_wire.color.setHex(val);
             });
+            colourFolder.addColor(param, 'Water_Colour').onChange(function(val) {
+                material_water.color.setHex(val);
+            });
             colourFolder.addColor(param, 'Base_Colour').onChange(function(val) {
                 material_base.color.setHex(val);
+            });
+            colourFolder.add(param, 'Ground_Shadow').onChange(function(bool) {
+                material_ground.castShadow = bool;
             });
 
             var wireframeFolder = gui.addFolder('Wireframes');
@@ -304,17 +321,6 @@
         //////////////////////
         //End Walter's Block//
         //////////////////////
-
-        /*
-        var animate = function() {
-            requestAnimationFrame(animate);
-
-            renderer.render(scene, camera);
-            controls.update(clock.getDelta());
-        };
-        animate();
-        */
-
 
         ///////////
         ///Light///
@@ -355,8 +361,6 @@
 
         var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
         scene.add(directLightHelper);
-
-        generate_summer_models();
 
     </script>
 

@@ -1,44 +1,33 @@
 //This should handle Seasonal Changes
+// Walter's Script, no touchie
 function setSeason() {
+    removeObjects();
     if (seasonControl.Season == "Summer") {
+        //Change Color
         material_ground.color.setHex(0x597D27);
         material_ground_wire.color.setHex(0x344916);
         material_base.color.setHex(0x976d4d);
+        material_water.color.setHex(0x1852af);
+        //Change Models
     } else if (seasonControl.Season == "Autumn") {
         material_ground.color.setHex(0x727C27);
         material_ground_wire.color.setHex(0x3D4215);
         material_base.color.setHex(0x6a4c36);
+        material_water.color.setHex(0x0b515d);
     } else if (seasonControl.Season == "Winter") {
-        material_ground.color.setHex(0x40826D);
-        material_ground_wire.color.setHex(0x1f3f35);
+        material_ground.color.setHex(0x274e42);
+        material_ground_wire.color.setHex(0x1a312a);
         material_base.color.setHex(0x4F3928);
+        material_water.color.setHex(0x4a7bcb);
     } else if (seasonControl.Season == "Spring") {
         material_ground.color.setHex(0x7FB238);
         material_ground_wire.color.setHex(0x344916);
         material_base.color.setHex(0x825e42);
+        material_water.color.setHex(0x1852af);
     }
-}
 
-//Declarative Purposes
-let seasons = [
-    Summer = {
-        material_ground: 0x597D27,
-        material_ground_wire: 0x344916,
-        material_base: 0x976d4d,
-    },
-    Autumn = {
-        material_ground: 0x727C27,
-        material_ground_wire: 0x3D4215,
-        material_base: 0x6a4c36,
-    },
-    Winter = {
-        material_ground: 0x40826D,
-        material_ground_wire: 0x1f3f35,
-        material_base: 0x4F3928,
-    },
-    Spring = {
-        material_ground: 0x7FB238,
-        material_ground_wire: 0x344916,
-        material_base: 0x825e42,
-    }
-];
+    for (var i = cloudCount - 1; i >= 0; i--) {
+        createCloud();
+    };
+    createTree();
+}
