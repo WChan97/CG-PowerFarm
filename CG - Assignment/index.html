@@ -40,6 +40,7 @@
         width: 100%;
         height: 100%;
     }
+
 </style>
 
 <body>
@@ -59,6 +60,7 @@
             width: 100%;
             text-align: center;
         }
+
     </style>
 
     <div id="info">
@@ -184,13 +186,10 @@
 
         var regenTerrain = {
             Regenerate: function() {
-                scene.remove(base);
                 scene.remove(mesh);
                 scene.remove(meshWire);
                 // From Generation.JS
                 reGen();
-                //
-                scene.add(base);
                 scene.add(mesh);
                 scene.add(meshWire);
             }
@@ -303,6 +302,7 @@
 
         var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
         scene.add(directLightHelper);
+
     </script>
 
 </body>
