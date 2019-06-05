@@ -97,6 +97,11 @@
         var gui;
         var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 
+
+        //////////////////////
+        ////Callum's Block////
+        //////////////////////
+
         //Generate Terrain
         var geometry = new THREE.PlaneBufferGeometry(20, 20, 100, 100);
         geometry.rotateX(-Math.PI / 2);
@@ -156,6 +161,11 @@
         scene.add(meshWire);
 
         scene.add(directionalLight);
+
+        //////////////////////
+        ////End Callum's Block////
+        //////////////////////
+
 
         //////////////////////
         ////Natalie's Block///
@@ -237,7 +247,7 @@
 
         createTree();
 
-        renderer.setClearColor(0x333333);
+        renderer.setClearColor(0xc4efff);
 
         var regenTerrain = {
             Regenerate: function() {
