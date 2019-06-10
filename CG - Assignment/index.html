@@ -5,10 +5,10 @@
 
     <!--Import Libraries-->
     <script src="js/three.js"> </script>
-    <!--Tracking Libraries-->
+    <!--Camera Controls Libraries-->
     <script src="js/OrbitControls.js"> </script>
     <script src="js/PointerLockControls.js"> </script>
-    <!--Controls-->
+    <!--GUI Controls-->
     <script src="js/dat.gui.min.js"> </script>
     <!--Model Libraries-->
     <script src="js/PLYLoader.js"> </script>
@@ -18,16 +18,9 @@
     <script src="js/OBJLoader.js"> </script>
 
     <!--Load Custom Scripts-->
-    <script src="scripts/UpdateRender.js"></script>
-    <script src="scripts/ControlOperations.js"></script>
     <script src="scripts/Generation.js"></script>
     <script src="scripts/SeasonColour.js"></script>
-    <script src="scripts/Texture.js"></script>
-    <script src="scripts/generateTerrain.js"></script>
-    <!--Dummy is used to test js files-->
-    <script src="scripts/Dummy.js"></script>
-    <script src="scripts/FirstPersonControls.js"></script>
-    <script src="scripts/generate_models.js"></script>
+    <!--Dummy is used to test js files, removed since release-->
 
 
 </head>
@@ -65,15 +58,19 @@
     </style>
 
     <div id="info">
-        <h2>Project: Terrain</h2>
-        - Left MB: Rotate<br />
-        - Right MB: Pan<br />
-        - Scroll Wheel: Zoom<br /><br />
-        Made by Group Four.<br />
-        Walter Chan<br />
-        Natalie Nhan <br />
-        Callum Denmead<br />
-        Hengcong Xu <br />
+        <h2>
+            <font color="black">Project: Terrain</font>
+        </h2>
+        <font color="black">
+            - Left MB: Rotate<br />
+            - Right MB: Pan<br />
+            - Scroll Wheel: Zoom<br /><br />
+            Made by Group Four.<br />
+            Walter Chan<br />
+            Natalie Nhan <br />
+            Callum Denmead<br />
+            Hengcong Xu <br />
+        </font>
     </div>
 
     <script>
@@ -203,10 +200,6 @@
         scene.add(cloud);
         //}
 
-        //createCloud();
-        //createCloud();
-        //createCloud();
-        //createCloud();
 
         //////////////////////
         //End Natalie's Block//
@@ -244,7 +237,22 @@
 
         var cloudCount = 2;
         var treeCount = 5;
-
+        
+        var lightControl = new function () {
+            this.Angle = 0.2;
+            this.Spin = 0.2;
+        };
+        
+        function updateLight() {
+            var distance = 1;
+            var angle = Math.PI * (lightControl.Angle - 0.5);
+            var spin = 2 * Math.PI * (lightControl.Spin - 0.5);
+            directionalLight.position.x = distance * Math.cos(spin);
+            directionalLight.position.y = distance * Math.sin(spin) * Math.sin(angle);
+            directionalLight.position.z = distance * Math.sin(spin) * Math.cos(angle);
+            directLightHelper.update();
+        }
+        
         createTree();
 
         renderer.setClearColor(0xc4efff);
@@ -253,7 +261,6 @@
             Regenerate: function() {
                 scene.remove(mesh);
                 scene.remove(meshWire);
-                //scene.remove(cloud);
                 removeObjects();
                 // From Generation.JS
                 reGen();
@@ -276,12 +283,6 @@
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
             }
-            /*
-            var lightFolder = gui.addFolder('Lighting Controls');
-            lightFolder.add(lightControl, 'Intensity', 0, 1, 0.1).onChange(updateLight);
-            lightFolder.add(lightControl, 'Angle', 0, 0.5, 0.0001).onChange(updateLight);
-            lightFolder.add(lightControl, 'Colour').onChange(updateLight);
-            */
 
             gui.add(regenTerrain, 'Regenerate');
 
@@ -295,6 +296,11 @@
 
             var seasonFolder = gui.addFolder('Seasons');
             seasonFolder.add(seasonControl, 'Season', ["Summer", "Autumn", "Winter", "Spring"]).onChange(setSeason);
+            
+            //Lighting is planned whenever shadows are complete. The following settings are present.
+            var lightFolder = gui.addFolder('Lighting Controls');
+            lightFolder.add(lightControl, 'Angle', 0, 0.5, 0.0001).onChange(updateLight);
+            lightFolder.add(lightControl, 'Spin', 0, 0.5, 0.0001).onChange(updateLight);
 
             var colourFolder = gui.addFolder('More Options');
             colourFolder.addColor(param, 'Ground_Colour').onChange(function(val) {
@@ -321,7 +327,7 @@
                 material_base.wireframe = bool;
             });
             gui.open();
-            //lightFolder.open();
+            lightFolder.open();
             seasonFolder.open();
         }
 

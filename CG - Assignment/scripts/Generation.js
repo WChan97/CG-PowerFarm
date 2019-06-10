@@ -56,7 +56,7 @@ function generate_objects(objs, mtls, amount) {
             objLoader.load(objs, function (object) { // Loads obj file from the file path and passes loaded texture. Returns texture object directly used for material creation.
                 object.traverse(function (child) { //'Traverse' iterates through loaded object. Passes function to be called for every child of object being traversed.
                     if (child instanceof THREE.Mesh) { //Tests whether child is of type THREE.Mesh
-                        //child.scale.set(THREE.Math.randFloat(0.3, 0.8), THREE.Math.randFloat(0.9, 1.5), THREE.Math.randFloat(0.3, 0.8)); //Random scaling of object
+                        child.scale.set(0.5, THREE.Math.randFloat(0.3, 0.7), 0.5); //Random scaling of object
 
                         child.position.x = THREE.Math.randInt(-8, 8); //Generates the object at a random integer number from -8 to 8 on the x and z axis.
                         child.position.z = THREE.Math.randInt(-8, 8);
@@ -128,23 +128,6 @@ function createTree() {
     }
 }
 
-
-//Possible functions we can use for different seasons.
-function generate_summer_models() {
-
-}
-
-function generate_autumn_models() {
-
-}
-
-function generate_winter_models() {
-
-}
-
-function generate_spring_models() {
-
-}
 
 //Remove All Objects - Walter
 function removeObjects() {
