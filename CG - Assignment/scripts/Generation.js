@@ -119,12 +119,16 @@ function createTree() {
 
     if (seasonControl.Season == "Summer") {
         generate_objects("models/naturePack_140.obj", "models/naturePack_140.mtl", treeCount);
+        generate_objects("models/Windmill_01.obj", "models/Windmill_01.mtl", 1);
     } else if (seasonControl.Season == "Autumn") {
         generate_objects("models/naturePack_139.obj", "models/naturePack_139.mtl", treeCount);
+        generate_objects("models/Windmill_01.obj", "models/Windmill_01.mtl", 1);
     } else if (seasonControl.Season == "Winter") {
         generate_objects("models/naturePack_159.obj", "models/naturePack_159.mtl", treeCount);
+        generate_objects("models/Windmill_01.obj", "models/Windmill_01.mtl", 1);
     } else if (seasonControl.Season == "Spring") {
         generate_objects("models/naturePack_150.obj", "models/naturePack_150.mtl", treeCount);
+        generate_objects("models/Windmill_01.obj", "models/Windmill_01.mtl", 1);
     }
 }
 
