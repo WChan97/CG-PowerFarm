@@ -232,9 +232,6 @@
         scene.add(directLight);
         scene.add(directLight.target);
 
-      //  var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
-      //  scene.add(directLightHelper);
-
         //////////////////////
         ////Walter's Block////
         //////////////////////
@@ -269,8 +266,8 @@
         var treeCount = 5;
 
         var lightControl = new function () {
-            this.Angle = 0.2;
-            this.Spin = 0.2;
+            this.Angle = 0.25;
+            this.Spin = 0.25;
         };
         //updateLight();
 
@@ -292,11 +289,15 @@
             Regenerate: function() {
                 scene.remove(mesh);
                 scene.remove(meshWire);
+                scene.remove(directLight);
+                scene.remove(directLight.target);
                 removeObjects();
                 // From Generation.JS
                 reGen();
                 scene.add(mesh);
                 scene.add(meshWire);
+                scene.add(directLight);
+                scene.add(directLight.target);
             }
         };
 
@@ -310,7 +311,6 @@
                 Wireframe_Colour: material_ground_wire.color.getHex(),
                 Water_Colour: material_water.color.getHex(),
                 Base_Colour: material_base.color.getHex(),
-                Ground_Shadow: mesh.castShadow,
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
             }
@@ -346,10 +346,6 @@
             colourFolder.addColor(param, 'Base_Colour').onChange(function(val) {
                 material_base.color.setHex(val);
             });
-            colourFolder.add(param, 'Ground_Shadow').onChange(function(bool) {
-                mesh.castShadow = bool;
-            });
-
             var wireframeFolder = gui.addFolder('Wireframes');
             wireframeFolder.add(param, 'Terrain_Wireframe').onChange(function(bool) {
                 material_ground.wireframe = bool;
