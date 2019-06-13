@@ -79,6 +79,7 @@
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         document.body.appendChild(renderer.domElement);
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -112,7 +113,7 @@
             displacementScale: 2,
             side: THREE.DoubleSide
         });
-        material_ground.castShadow = true;
+        //material_ground.castShadow = true;
 
         var material_ground_wire = new THREE.MeshPhongMaterial({
             color: 0x344916,
@@ -127,6 +128,8 @@
             geometry,
             material_ground
         );
+        mesh.castShadow = false;
+        mesh.receiveShadow = true;
 
 
         var meshWire = new THREE.Mesh(
@@ -134,6 +137,7 @@
             material_ground_wire
         );
         meshWire.position.set(0, 0.01, 0);
+      //  meshWire.receiveShadow = true;
 
 
         var basegeometry = new THREE.BoxGeometry(20, 5, 20);
@@ -205,6 +209,32 @@
         //End Natalie's Block//
         //////////////////////
 
+        // Create direct light
+        var directLight = new THREE.DirectionalLight(0xffffff, 1);
+        directLight.color.setHSL(0.1, 1, 0.95);
+        directLight.position.set(400, 300, 1);
+        directLight.target.position.set(0, 0, 0);
+        directLight.position.multiplyScalar(30);
+
+        directLight.castShadow = true;
+        directLight.shadow.mapSize.width = 2048;
+        directLight.shadow.mapSize.height = 2048;
+
+        var d = 50;
+
+        directLight.shadow.camera.left = -d;
+        directLight.shadow.camera.right = d;
+        directLight.shadow.camera.top = d;
+        directLight.shadow.camera.bottom = -d;
+        directLight.shadow.camera.far = 3500;
+        directLight.shadow.bias = -0.0001;
+
+        scene.add(directLight);
+        scene.add(directLight.target);
+
+      //  var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
+      //  scene.add(directLightHelper);
+
         //////////////////////
         ////Walter's Block////
         //////////////////////
@@ -237,22 +267,23 @@
 
         var cloudCount = 2;
         var treeCount = 5;
-        
+
         var lightControl = new function () {
             this.Angle = 0.2;
             this.Spin = 0.2;
         };
-        
+        //updateLight();
+
         function updateLight() {
             var distance = 1;
             var angle = Math.PI * (lightControl.Angle - 0.5);
             var spin = 2 * Math.PI * (lightControl.Spin - 0.5);
-            directionalLight.position.x = distance * Math.cos(spin);
-            directionalLight.position.y = distance * Math.sin(spin) * Math.sin(angle);
-            directionalLight.position.z = distance * Math.sin(spin) * Math.cos(angle);
+            directLight.position.x = distance * Math.cos(spin);
+            directLight.position.y = distance * Math.sin(spin) * Math.sin(angle);
+            directLight.position.z = distance * Math.sin(spin) * Math.cos(angle);
             directLightHelper.update();
         }
-        
+
         createTree();
 
         renderer.setClearColor(0xc4efff);
@@ -279,7 +310,7 @@
                 Wireframe_Colour: material_ground_wire.color.getHex(),
                 Water_Colour: material_water.color.getHex(),
                 Base_Colour: material_base.color.getHex(),
-                Ground_Shadow: material_ground.castShadow,
+                Ground_Shadow: mesh.castShadow,
                 Terrain_Wireframe: material_ground.wireframe,
                 Base_Wireframe: material_base.wireframe
             }
@@ -296,7 +327,7 @@
 
             var seasonFolder = gui.addFolder('Seasons');
             seasonFolder.add(seasonControl, 'Season', ["Summer", "Autumn", "Winter", "Spring"]).onChange(setSeason);
-            
+
             //Lighting is planned whenever shadows are complete. The following settings are present.
             var lightFolder = gui.addFolder('Lighting Controls');
             lightFolder.add(lightControl, 'Angle', 0, 0.5, 0.0001).onChange(updateLight);
@@ -316,7 +347,7 @@
                 material_base.color.setHex(val);
             });
             colourFolder.add(param, 'Ground_Shadow').onChange(function(bool) {
-                material_ground.castShadow = bool;
+                mesh.castShadow = bool;
             });
 
             var wireframeFolder = gui.addFolder('Wireframes');
@@ -353,30 +384,7 @@
         var helper = new THREE.HemisphereLightHelper(hemiLight, 10);
         scene.add(helper);
 
-        var directLight = new THREE.DirectionalLight(0xffffff, 1);
-        directLight.color.setHSL(0.1, 1, 0.95);
-        directLight.position.set(400, 300, 1);
-        directLight.target.position.set(0, 0, 0);
-        directLight.position.multiplyScalar(30);
 
-        scene.add(directLight);
-        scene.add(directLight.target);
-
-        directLight.castShadow = true;
-        directLight.shadow.mapSize.width = 2048;
-        directLight.shadow.mapSize.height = 2048;
-
-        var d = 50;
-
-        directLight.shadow.camera.left = -d;
-        directLight.shadow.camera.right = d;
-        directLight.shadow.camera.top = d;
-        directLight.shadow.camera.bottom = -d;
-        directLight.shadow.camera.far = 3500;
-        directLight.shadow.bias = -0.0001;
-
-        var directLightHelper = new THREE.DirectionalLightHelper(directLight, 10);
-        scene.add(directLightHelper);
 
     </script>
 
